@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ESNext"],
+    "lib": ["ES2020"],
     "downlevelIteration": true,
     "importHelpers": true,
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "declaration": true,
     "strict": true,
     "pretty": true,
@@ -15,6 +16,6 @@
     "baseUrl": ".",
     "typeRoots": ["node_modules/@types", "types"]
   },
-  "include": ["packages/*/lib/**/*", "packages/*/types/**/*"],
+  "include": ["./packages/*/lib/**/*.ts", "./packages/*/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
