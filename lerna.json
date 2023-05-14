@@ -1,0 +1,11 @@
+{
+  "packages": ["packages/*", "@quikc/core"],
+  "version": "independent",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "allowBranch": ["main"],
+      "registry": "https://registry.npmjs.org/"
+    }
+  }
+}

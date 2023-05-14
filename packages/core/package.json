@@ -1,0 +1,42 @@
+{
+  "name": "@quikc/core",
+  "version": "0.3.1",
+  "description": "This package contains the core logic and interfaces for the authorization library.",
+  "keywords": [
+    "Cache",
+    "Nodejs Cache",
+    "Fast cache",
+    "Node fast cache"
+  ],
+  "author": "Mohamed Achaq <hi@achaq.dev>",
+  "homepage": "https://quikc.achaq.dev",
+  "registry": "https://registry.npmjs.org/",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest --config=./jest.config.js",
+    "build": "rm -rf dist && vite build --config vite.config.js",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "vite": "^4.2.1",
+    "vite-plugin-dts": "^2.2.0"
+  },
+  "gitHead": "25eac252720288b823c4847328c9ac66efda0f4d"
+}
