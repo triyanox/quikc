@@ -1,6 +1,6 @@
 {
   "name": "@quikc/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This package contains the core logic and interfaces for the authorization library.",
   "keywords": [
     "Cache",
