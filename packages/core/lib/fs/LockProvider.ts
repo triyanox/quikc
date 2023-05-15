@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ILockProvider } from 'packages/core/types';
+import { ILockProvider } from '../../types';
 
 /**
  * A lock provider that uses the file system to store locks.

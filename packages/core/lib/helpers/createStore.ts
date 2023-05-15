@@ -4,7 +4,7 @@ import {
   MongoClient,
   ProviderType,
   RedisClient
-} from 'packages/core/types';
+} from '../../types';
 import { FileSystemCacheProvider } from '../fs';
 import { MemoryCacheProvider } from '../memory';
 import { MongoCacheProvider } from '../mongo';

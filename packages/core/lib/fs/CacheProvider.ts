@@ -1,11 +1,5 @@
 import fs from 'fs';
-import {
-  CacheEntry,
-  CacheOptions,
-  CacheProvider,
-  CacheStats,
-  ILockProvider
-} from 'packages/core/types';
+import { CacheEntry, CacheOptions, CacheProvider, CacheStats, ILockProvider } from '../../types';
 import path from 'path';
 
 /**

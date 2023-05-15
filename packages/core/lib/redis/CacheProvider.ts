@@ -1,10 +1,4 @@
-import {
-  CacheOptions,
-  CacheProvider,
-  CacheStats,
-  ILockProvider,
-  RedisClient
-} from 'packages/core/types';
+import { CacheOptions, CacheProvider, CacheStats, ILockProvider, RedisClient } from '../../types';
 
 /**
  * redis cache provider.

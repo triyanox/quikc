@@ -4,7 +4,7 @@ import {
   MongoClient,
   ProviderType,
   RedisClient
-} from 'packages/core/types';
+} from '../../types';
 import { FileSystemLockProvider } from '../fs';
 import { MemoryLockProvider } from '../memory';
 import MongoDBLockProvider from '../mongo/LockProvider';

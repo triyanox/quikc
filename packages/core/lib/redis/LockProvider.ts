@@ -1,4 +1,4 @@
-import { ILockProvider, RedisClient } from 'packages/core/types';
+import { ILockProvider, RedisClient } from '../../types';
 
 /**
  * redis lock provider.

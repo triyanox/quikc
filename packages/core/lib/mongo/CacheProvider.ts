@@ -1,10 +1,4 @@
-import {
-  CacheOptions,
-  CacheProvider,
-  CacheStats,
-  ILockProvider,
-  MongoClient
-} from 'packages/core/types';
+import { CacheOptions, CacheProvider, CacheStats, ILockProvider, MongoClient } from '../../types';
 
 /**
  * MongoDB cache provider.

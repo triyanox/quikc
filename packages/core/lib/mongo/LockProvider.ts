@@ -1,4 +1,4 @@
-import { ILockProvider, MongoClient } from 'packages/core/types';
+import { ILockProvider, MongoClient } from '../../types';
 
 /**
  * A lock provider that uses MongoDB to store locks.

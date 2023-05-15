@@ -1,4 +1,4 @@
-import { ILockProvider } from 'packages/core/types';
+import { ILockProvider } from '../../types';
 
 /**
  * A lock provider that uses memory to store locks.

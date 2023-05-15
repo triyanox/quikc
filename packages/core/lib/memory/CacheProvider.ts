@@ -1,10 +1,4 @@
-import {
-  CacheEntry,
-  CacheOptions,
-  CacheProvider,
-  CacheStats,
-  ILockProvider
-} from 'packages/core/types';
+import { CacheEntry, CacheOptions, CacheProvider, CacheStats, ILockProvider } from '../../types';
 
 /**
  * in-memory cache provider.
