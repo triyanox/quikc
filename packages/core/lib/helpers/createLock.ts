@@ -1,13 +1,7 @@
-import {
-  ILockProvider,
-  LockProviderOptions,
-  MongoClient,
-  ProviderType,
-  RedisClient
-} from '../../types';
+import { Redis } from 'ioredis';
+import { ILockProvider, LockProviderOptions, ProviderType } from '../../types';
 import { FileSystemLockProvider } from '../fs';
 import { MemoryLockProvider } from '../memory';
-import MongoDBLockProvider from '../mongo/LockProvider';
 import { RedisLockProvider } from '../redis';
 
 /**
@@ -26,15 +20,7 @@ function createLock<T extends ProviderType>(
     case 'fs':
       return new FileSystemLockProvider((options as unknown as { cachePath: string }).cachePath);
     case 'redis':
-      return new RedisLockProvider(
-        (options as unknown as { redisClient: RedisClient }).redisClient
-      );
-    case 'mongo':
-      return new MongoDBLockProvider(
-        (options as unknown as { mongoClient: MongoClient }).mongoClient,
-        (options as unknown as { dbName: string }).dbName,
-        (options as unknown as { collectionName: string }).collectionName
-      );
+      return new RedisLockProvider((options as unknown as { redisClient: Redis }).redisClient);
     default:
       throw new Error(`Invalid lock provider type: ${providerType}`);
   }

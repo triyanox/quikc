@@ -1,13 +1,7 @@
-import {
-  CacheProvider,
-  CacheProviderOptions,
-  MongoClient,
-  ProviderType,
-  RedisClient
-} from '../../types';
+import { Redis } from 'ioredis';
+import { CacheProvider, CacheProviderOptions, ProviderType } from '../../types';
 import { FileSystemCacheProvider } from '../fs';
 import { MemoryCacheProvider } from '../memory';
-import { MongoCacheProvider } from '../mongo';
 import { RedisCacheProvider } from '../redis';
 
 /**
@@ -26,15 +20,7 @@ function createStore<T extends ProviderType>(
     case 'fs':
       return new FileSystemCacheProvider((options as unknown as { cachePath: string }).cachePath);
     case 'redis':
-      return new RedisCacheProvider(
-        (options as unknown as { redisClient: RedisClient }).redisClient
-      );
-    case 'mongo':
-      return new MongoCacheProvider(
-        (options as unknown as { mongoClient: MongoClient }).mongoClient,
-        (options as unknown as { dbName: string }).dbName,
-        (options as unknown as { collectionName: string }).collectionName
-      );
+      return new RedisCacheProvider((options as unknown as { redisClient: Redis }).redisClient);
     default:
       throw new Error(`Invalid lock provider type: ${providerType}`);
   }

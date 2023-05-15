@@ -9,12 +9,13 @@ class MemoryCacheProvider implements CacheProvider {
   private stats: CacheStats;
 
   constructor() {
-    this.cache = new Map<string, CacheEntry>();
+    this.cache = new Map();
     this.stats = { hits: 0, misses: 0, hitRate: 0 };
   }
 
   async get(key: string): Promise<unknown | undefined> {
     const entry = this.cache.get(key);
+
     if (!entry || entry.expiresAt < Date.now()) {
       this.stats.misses++;
       return undefined;
@@ -27,7 +28,7 @@ class MemoryCacheProvider implements CacheProvider {
   async set(key: string, value: unknown, options?: CacheOptions): Promise<void> {
     const ttl = options?.ttl ?? 0;
     const expiresAt = Date.now() + ttl * 1000;
-    const dependencies = options?.dependencies;
+    const dependencies = options?.dependencies?.map((dependency) => dependency);
     const priority = options?.priority;
     const lockTimeout = options?.lockTimeout;
 
@@ -51,7 +52,27 @@ class MemoryCacheProvider implements CacheProvider {
   }
 
   async del(key: string): Promise<void> {
+    const dependentKeys = await this.getDependentKeys(key);
+    if (dependentKeys?.length) {
+      await this.delDependentKeys(dependentKeys);
+    }
     this.cache.delete(key);
+  }
+
+  async getDependentKeys(key: string): Promise<string[] | undefined> {
+    const dependentKeys: Set<string> = new Set();
+    this.cache.forEach((entry, entryKey) => {
+      if (entry.dependencies?.includes(key)) {
+        dependentKeys.add(entryKey);
+      }
+    });
+    return Array.from(dependentKeys);
+  }
+
+  async delDependentKeys(keys: string[]): Promise<void> {
+    for (const key of keys) {
+      await this.del(key);
+    }
   }
 
   async clear(): Promise<void> {
@@ -66,11 +87,6 @@ class MemoryCacheProvider implements CacheProvider {
 
   setLockProvider(lockProvider: ILockProvider): void {
     this.lockProvider = lockProvider;
-  }
-
-  withLockProvider(lockProvider: ILockProvider): CacheProvider {
-    this.setLockProvider(lockProvider);
-    return this;
   }
 }
 

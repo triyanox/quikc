@@ -1,5 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
+  verbose: true,
+  silent: true,
   testEnvironment: 'node',
   testMatch: ['<rootDir>/__tests__/**/*.test.(ts|js|tsx)'],
   moduleNameMapper: {

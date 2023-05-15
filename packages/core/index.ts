@@ -3,8 +3,6 @@ export {
   FileSystemLockProvider,
   MemoryCacheProvider,
   MemoryLockProvider,
-  MongoCacheProvider,
-  MongoLockProvider,
   RedisCacheProvider,
   RedisLockProvider,
   createLock,
@@ -19,8 +17,5 @@ export type {
   CacheStats,
   ILockProvider,
   LockProviderOptions,
-  MongoClient,
-  ProviderType,
-  RedisClient,
-  RedisPipeline
+  ProviderType
 } from './types/index';

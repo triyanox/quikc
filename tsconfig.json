@@ -13,9 +13,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
+    "declarationDir": "dist",
     "baseUrl": ".",
     "typeRoots": ["node_modules/@types", "types"]
   },
-  "include": ["./packages/*/lib/**/*.ts", "./packages/*/types/**/*.ts"],
+  "include": ["packages/*/lib/**/*", "packages/*/types/**/*"],
   "exclude": ["node_modules", "dist"]
 }

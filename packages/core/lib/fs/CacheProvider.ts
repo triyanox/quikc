@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { CacheEntry, CacheOptions, CacheProvider, CacheStats, ILockProvider } from '../../types';
 import path from 'path';
+import { CacheEntry, CacheOptions, CacheProvider, CacheStats, ILockProvider } from '../../types';
 
 /**
  * A cache provider that stores cache entries in the file system.
@@ -43,6 +43,12 @@ class FileSystemCacheProvider implements CacheProvider {
 
   async get(key: string): Promise<unknown | undefined> {
     const filePath = this.getCacheFilePath(this.formatKey(key));
+
+    if (!fs.existsSync(filePath)) {
+      this.stats.misses++;
+      return undefined;
+    }
+
     const entry = this.readCacheFile(filePath);
 
     if (!entry || entry.expiresAt < Date.now()) {
@@ -82,12 +88,36 @@ class FileSystemCacheProvider implements CacheProvider {
   }
 
   async del(key: string): Promise<void> {
+    const dependentKeys = await this.getDependentKeys(this.formatKey(key));
+    if (dependentKeys?.length) {
+      await this.delDependentKeys(dependentKeys);
+    }
     const filePath = this.getCacheFilePath(key);
     try {
       fs.unlinkSync(filePath);
     } catch (error) {
       console.error(`Failed to delete cache file: ${filePath}`, error);
     }
+  }
+
+  async getDependentKeys(key: string): Promise<string[] | undefined> {
+    const files = fs.readdirSync(this.cachePath);
+    const dependentKeys: Set<string> = new Set();
+    files.forEach((file) => {
+      const filePath = path.join(this.cachePath, file);
+      const entry = this.readCacheFile(filePath);
+      if (entry && entry.dependencies?.includes(key)) {
+        dependentKeys.add(file.replace('.json', ''));
+      }
+    });
+    return Promise.resolve(Array.from(dependentKeys));
+  }
+
+  delDependentKeys(keys: string[]): Promise<void> {
+    keys.forEach((key) => {
+      this.del(key);
+    });
+    return Promise.resolve();
   }
 
   async clear(): Promise<void> {
@@ -110,11 +140,6 @@ class FileSystemCacheProvider implements CacheProvider {
 
   setLockProvider(lockProvider: ILockProvider): void {
     this.lockProvider = lockProvider;
-  }
-
-  withLockProvider(lockProvider: ILockProvider): CacheProvider {
-    this.setLockProvider(lockProvider);
-    return this;
   }
 
   private formatKey(key: string): string {

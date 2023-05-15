@@ -44,6 +44,23 @@ class MemoryLockProvider implements ILockProvider {
   private sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
+  async getLock(key: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (!this.locks.has(key)) {
+        this.locks.set(key, true);
+        resolve(true);
+      }
+      resolve(false);
+    });
+  }
+
+  async clearLocks(): Promise<void> {
+    return new Promise((resolve) => {
+      this.locks.clear();
+      resolve();
+    });
+  }
 }
 
 export default MemoryLockProvider;

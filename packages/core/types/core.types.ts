@@ -99,9 +99,13 @@ interface CacheProvider {
   setLockProvider(lockProvider: ILockProvider): void;
 
   /**
-   * Creates a new instance of the cache provider with a lock provider.
+   * Gets the dependent keys for the specified key.
    */
-  withLockProvider(lockProvider: ILockProvider): CacheProvider;
+  getDependentKeys(key: string): Promise<string[] | undefined>;
+  /**
+   * Deletes the dependent keys for the specified key.
+   */
+  delDependentKeys(keys: string[]): Promise<void>;
 }
 
 /**
@@ -140,6 +144,18 @@ interface ILockProvider {
    * @returns A Promise that resolves when the lock is successfully released.
    */
   releaseLock(key: string): Promise<void>;
+
+  /**
+   * Clears all locks.
+   * @returns A Promise that resolves when all locks are successfully cleared.
+   * @remarks This method is intended for testing purposes only.
+   */
+  clearLocks(): Promise<void>;
+
+  /**
+   * Get a lock by key.
+   */
+  getLock(key: string): Promise<boolean | undefined>;
 }
 
 export { CacheEntry, CacheOptions, CacheProvider, CacheStats, ILockProvider };

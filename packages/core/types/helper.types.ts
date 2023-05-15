@@ -1,10 +1,9 @@
-import { MongoClient } from './mongo.types';
-import { RedisClient } from './redis.types';
+import { Redis } from 'ioredis';
 
 /**
  * The type of cache provider to create.
  */
-type ProviderType = 'memory' | 'fs' | 'redis' | 'mongo';
+type ProviderType = 'memory' | 'fs' | 'redis';
 
 /**
  * The options to use when creating a cache provider.
@@ -23,22 +22,7 @@ type CacheProviderOptions<T extends ProviderType> = T extends 'memory'
       /**
        * The Redis client to use.
        */
-      redisClient: RedisClient;
-    }
-  : T extends 'mongo'
-  ? {
-      /**
-       * The MongoDB client to use.
-       */
-      mongoClient: MongoClient;
-      /**
-       * The name of the database to use.
-       */
-      dbName: string;
-      /**
-       * The name of the collection to use.
-       */
-      collectionName: string;
+      redisClient: Redis;
     }
   : never;
 
@@ -59,23 +43,8 @@ type LockProviderOptions<T extends ProviderType> = T extends 'memory'
       /**
        * The Redis client to use.
        */
-      redisClient: RedisClient;
-    }
-  : T extends 'mongo'
-  ? {
-      /**
-       * The MongoDB client to use.
-       */
-      mongoClient: MongoClient;
-      /**
-       * The name of the database to use.
-       */
-      dbName: string;
-      /**
-       * The name of the collection to use.
-       */
-      collectionName: string;
+      redisClient: Redis;
     }
   : never;
 
-export { ProviderType, CacheProviderOptions, LockProviderOptions };
+export { CacheProviderOptions, LockProviderOptions, ProviderType };

@@ -1,12 +1,13 @@
-import { ILockProvider, RedisClient } from '../../types';
+import { ILockProvider } from '../../types';
+import { Redis } from 'ioredis';
 
 /**
  * redis lock provider.
  */
 class RedisLockProvider implements ILockProvider {
-  private redisClient: RedisClient;
+  private redisClient: Redis;
 
-  constructor(redisClient: RedisClient) {
+  constructor(redisClient: Redis) {
     this.redisClient = redisClient;
   }
 
@@ -24,21 +25,30 @@ class RedisLockProvider implements ILockProvider {
         return false;
       }
 
-      await this.sleep(10);
+      await RedisLockProvider.sleep(10);
     }
   }
 
   private async tryAcquireLock(key: string): Promise<boolean> {
     const lockAcquired = await this.redisClient.set(key, 'locked', 'NX');
-    return lockAcquired;
+    return lockAcquired === 'OK';
   }
 
   async releaseLock(key: string): Promise<void> {
     await this.redisClient.del(key);
   }
 
-  private sleep(ms: number): Promise<void> {
+  static sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async clearLocks(): Promise<void> {
+    await this.redisClient.flushdb();
+  }
+
+  async getLock(key: string): Promise<boolean | undefined> {
+    const lockAcquired = await this.redisClient.set(key, 'locked', 'NX');
+    return lockAcquired === 'OK';
   }
 }
 

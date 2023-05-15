@@ -1,14 +1,15 @@
-import { CacheOptions, CacheProvider, CacheStats, ILockProvider, RedisClient } from '../../types';
+import { CacheOptions, CacheProvider, CacheStats, ILockProvider } from '../../types';
+import { Redis } from 'ioredis';
 
 /**
  * redis cache provider.
  */
 class RedisCacheProvider implements CacheProvider {
-  private redisClient: RedisClient;
+  private redisClient: Redis;
   private lockProvider?: ILockProvider;
   private stats: CacheStats;
 
-  constructor(redisClient: RedisClient) {
+  constructor(redisClient: Redis) {
     this.redisClient = redisClient;
     this.stats = { hits: 0, misses: 0, hitRate: 0 };
   }
@@ -35,7 +36,12 @@ class RedisCacheProvider implements CacheProvider {
     pipeline.expire(key, ttl);
 
     if (dependencies) {
-      pipeline.sadd(`${key}:dependencies`, ...dependencies);
+      await Promise.all(
+        dependencies.map(async (dependency: string) => {
+          pipeline.sadd(`${dependency}:dependents`, key);
+        })
+      );
+      pipeline.sadd(`${key}:dependencies`, dependencies);
     }
 
     if (priority !== undefined) {
@@ -47,14 +53,36 @@ class RedisCacheProvider implements CacheProvider {
       if (!lockAcquired) {
         return;
       }
-      pipeline.hset(key, 'locked', 'true');
+      try {
+        pipeline.hset(key, 'locked', 'true');
+      } finally {
+        await this.lockProvider.releaseLock(key);
+      }
     }
 
     await pipeline.exec();
   }
 
   async del(key: string): Promise<void> {
+    const dependentKeys = await this.getDependentKeys(key);
+    if (dependentKeys?.length) {
+      await this.delDependentKeys(dependentKeys);
+    }
     await this.redisClient.del(key);
+  }
+
+  async getDependentKeys(key: string): Promise<string[] | undefined> {
+    const dependentKeySet = await this.redisClient.smembers(`${key}:dependents`);
+    if (!dependentKeySet) {
+      return undefined;
+    }
+    return dependentKeySet;
+  }
+
+  async delDependentKeys(keys: string[]): Promise<void> {
+    const pipeline = this.redisClient.pipeline();
+    keys.forEach((key) => pipeline.del(key));
+    await pipeline.exec();
   }
 
   async clear(): Promise<void> {
@@ -69,11 +97,6 @@ class RedisCacheProvider implements CacheProvider {
 
   setLockProvider(lockProvider: ILockProvider): void {
     this.lockProvider = lockProvider;
-  }
-
-  withLockProvider(lockProvider: ILockProvider): CacheProvider {
-    this.setLockProvider(lockProvider);
-    return this;
   }
 }
 
