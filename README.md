@@ -29,4 +29,4 @@ Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md)
 
 ## License
 
-[MIT](https://github.com/triyanox/iamjs/blob/main/LICENSE)
+[MIT](https://github.com/triyanox/quikc/blob/main/LICENSE)

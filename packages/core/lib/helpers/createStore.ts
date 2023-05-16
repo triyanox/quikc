@@ -5,7 +5,7 @@ import { MemoryCacheProvider } from '../memory';
 import { RedisCacheProvider } from '../redis';
 
 /**
- *
+ * Creates a cache provider.
  * @param providerType - The type of lock provider to create.
  * @param options - The options to use when creating the lock provider.
  * @returns The lock provider.
