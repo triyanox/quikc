@@ -8,6 +8,9 @@ module.exports = {
       name: '@quikc/core',
       fileName: 'index',
       formats: ['cjs', 'es']
+    },
+    rollupOptions: {
+      external: ['fs', 'path']
     }
   },
   plugins: [dts()]
