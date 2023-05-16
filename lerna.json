@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "@quikc/core"],
+  "packages": ["packages/*", "@quikc/core", "@quikc/express"],
   "version": "independent",
   "useWorkspaces": true,
   "command": {

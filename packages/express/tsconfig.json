@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "**/__tests__/*"],
+  "compilerOptions": {
+    "paths": {
+      "@quikc/core": ["node_modules/@quikc/core"]
+    }
+  }
+}
