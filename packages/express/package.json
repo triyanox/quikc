@@ -1,6 +1,6 @@
 {
   "name": "@quikc/express",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This package contains middleware for integrating the caching library into your Express application.",
   "keywords": [
     "quikc",
@@ -42,6 +42,6 @@
     "vite-plugin-dts": "^2.2.0"
   },
   "dependencies": {
-    "@quikc/core": "^0.1.10"
+    "@quikc/core": "^0.1.11"
   }
 }
