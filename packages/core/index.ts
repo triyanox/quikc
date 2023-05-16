@@ -1,4 +1,4 @@
-export {
+import {
   FileSystemCacheProvider,
   FileSystemLockProvider,
   MemoryCacheProvider,
@@ -9,7 +9,7 @@ export {
   createStore
 } from './lib/index';
 
-export type {
+import type {
   CacheEntry,
   CacheOptions,
   CacheProvider,
@@ -19,3 +19,25 @@ export type {
   LockProviderOptions,
   ProviderType
 } from './types/index';
+
+export {
+  FileSystemCacheProvider,
+  FileSystemLockProvider,
+  MemoryCacheProvider,
+  MemoryLockProvider,
+  RedisCacheProvider,
+  RedisLockProvider,
+  createLock,
+  createStore
+};
+
+export type {
+  CacheEntry,
+  CacheOptions,
+  CacheProvider,
+  CacheProviderOptions,
+  CacheStats,
+  ILockProvider,
+  LockProviderOptions,
+  ProviderType
+};

@@ -10,9 +10,5 @@ module.exports = {
       formats: ['cjs', 'es']
     }
   },
-  plugins: [
-    dts({
-      insertTypesEntry: true
-    })
-  ]
+  plugins: [dts()]
 };
