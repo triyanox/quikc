@@ -18,7 +18,7 @@ function createLock<T extends ProviderType>(
     case 'memory':
       return new MemoryLockProvider();
     case 'fs':
-      return new FileSystemLockProvider((options as unknown as { cachePath: string }).cachePath);
+      return new FileSystemLockProvider((options as unknown as { lockPath: string }).lockPath);
     case 'redis':
       return new RedisLockProvider((options as unknown as { redisClient: Redis }).redisClient);
     default:
