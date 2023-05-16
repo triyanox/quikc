@@ -1,6 +1,6 @@
 {
   "name": "@quikc/core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This package contains the core logic and interfaces for the caching library.",
   "keywords": [
     "Cache",
