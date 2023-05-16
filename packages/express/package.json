@@ -1,6 +1,6 @@
 {
   "name": "@quikc/express",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This package contains middleware for integrating the caching library into your Express application.",
   "keywords": [
     "quikc",
