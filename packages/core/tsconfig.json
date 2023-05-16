@@ -1,8 +1,5 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["./lib/**/*.ts", "./types/**/*.ts"],
-  "exclude": ["node_modules", "**/__tests__/*"],
-  "compilerOptions": {
-    "moduleResolution": "node"
-  }
+  "exclude": ["node_modules", "**/__tests__/*"]
 }
