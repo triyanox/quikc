@@ -51,7 +51,7 @@ interface QuikcExpressCacheMiddlewareOptions {
   cacheFallback?: boolean;
 
   /**
-   * Time-to-live (TTL) for the fallback cache entry.
+   * Time-to-live (TTL) for the fallback cache entry in seconds.
    */
   cacheFallbackTTL?: number;
 
