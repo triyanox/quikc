@@ -4,7 +4,7 @@
 
 ## Installation
 
-`quikc` is not framwork specific and can be used in any Node.js application.
+[@quikc/core](/packages/core) is not framwork specific and can be used in any Node.js application.
 you can install it by running the following command:
 
 ```bash
